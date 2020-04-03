@@ -13,6 +13,7 @@ class board {
   void printNetworks();
   void printEncryptionType(uint8_t);
   void connect(const char *, const char *);
+  void serialWelcome();
 };
 
 #endif

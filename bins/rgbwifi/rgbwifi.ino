@@ -8,6 +8,7 @@ board WiFiBoard(115200);
 
 void setup() {
 
+  WiFiBoard.serialWelcome();
   WiFiBoard.printNetworks();
   WiFiBoard.connect(ssid, password);
 

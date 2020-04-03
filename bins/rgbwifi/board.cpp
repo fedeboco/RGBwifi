@@ -22,18 +22,18 @@ void board::printNetworks() {
     Serial.println("No networks available.");
 
   // prints number of networks
-  Serial.print(n);
-  Serial.println(" networks found:");
+  Serial.print("Number of networks available: ");
+  Serial.println(n);
 
   /* prints names (SSID), signal intensity (RSSI)
   and encryption type. */
   for (int i = 0; i < n; i++) {
     Serial.print(i + 1);
-    Serial.print("| ");
+    Serial.print(") ");
     Serial.print(WiFi.SSID(i));
     Serial.print(" (RSSI: ");
     Serial.print(WiFi.RSSI(i));
-    Serial.print(") - ");
+    Serial.print("). ");
     printEncryptionType(WiFi.encryptionType(i));
     delay(50);
   }
@@ -55,11 +55,22 @@ void board::connect(const char * ssid, const char * password) {
   while (WiFi.status() != WL_CONNECTED) { 
     counter++;
     if (counter > 3) {
-      Serial.print("\b\b\b");
+      Serial.print(".");
       counter = 0;
     }
-    delay(250);
-    Serial.print(".");
+    delay(50);
   }
+  Serial.print("\nConnected successfully to ");
+  Serial.print(ssid);
+  Serial.println(".");
+  Serial.print("Device IP: ");
   Serial.println(WiFi.localIP());
 }
+
+void board::serialWelcome() {
+  Serial.print("\n\n");
+  Serial.println("--------------------------");
+  Serial.println("RGB WiFi Strip Controller.");
+  Serial.println("--------------------------");
+}
+
