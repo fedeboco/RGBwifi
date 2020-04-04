@@ -7,7 +7,7 @@ strip::strip(uint8_t Rpin, uint8_t Gpin, uint8_t Bpin) : Rpin(Rpin), Gpin(Gpin),
 }
 
 void strip::setColour(colour colour) {
-    analogWrite(Rpin, colour.getR());
-    analogWrite(Gpin, colour.getG());
-    analogWrite(Bpin, colour.getB());
+    analogWrite(Rpin, colour.getR() * 1023 / 255);
+    analogWrite(Gpin, colour.getG() * 1023 / 255);
+    analogWrite(Bpin, colour.getB() * 1023 / 255);
 }
