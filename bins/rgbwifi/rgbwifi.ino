@@ -16,7 +16,7 @@ colour green(0, 255, 0);
 colour blue(0, 0, 255);
 colour rain;
 float rainIndex = 0;
-int pote = 0;
+float pote = 0;
 
 void setup() {
 
@@ -27,15 +27,22 @@ void setup() {
 }
 
 void loop() {
-  rainIndex += 0.002;
+
+  // Strobe rainbow
+  /*rainIndex += 0.002;
   if (rainIndex > 1)
     rainIndex = 0;
   rain.rainbow(rainIndex);
+  RGB.setColour(rain);*/
+
+  // Colour with potentiometer
+  pote = analogRead(A0) / 1023.0 / 0.88;
+  Serial.println(pote);
+  rain.rainbow(pote);
   RGB.setColour(rain);
-  delay(15);
+  delay(25);
 
-
-  
+  // Flashing
   /*RGB.setColour(red);
   delay(FLASH_PERIOD);
   RGB.setColour(green);
