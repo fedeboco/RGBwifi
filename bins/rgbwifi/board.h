@@ -14,6 +14,7 @@ class board {
   void printEncryptionType(uint8_t);
   void connect(const char *, const char *);
   void serialWelcome();
+  void waitForConnection();
 };
 
 #endif

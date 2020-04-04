@@ -13,6 +13,7 @@ board::board(int brate) : brate(brate) {
   WiFi.mode(WIFI_STA); //estacion
   WiFi.disconnect();
   delay(100);
+  pinMode(2, OUTPUT);
 }
 
 void board::printNetworks() {
@@ -49,17 +50,8 @@ void board::printEncryptionType(uint8_t enc) {
 }
 
 void board::connect(const char * ssid, const char * password) {
-  uint8_t counter = 0;
-
   WiFi.begin(ssid, password);
-  while (WiFi.status() != WL_CONNECTED) { 
-    counter++;
-    if (counter > 3) {
-      Serial.print(".");
-      counter = 0;
-    }
-    delay(50);
-  }
+  waitForConnection();
   Serial.print("\nConnected successfully to ");
   Serial.print(ssid);
   Serial.println(".");
@@ -72,5 +64,28 @@ void board::serialWelcome() {
   Serial.println("--------------------------");
   Serial.println("RGB WiFi Strip Controller.");
   Serial.println("--------------------------");
+}
+
+void board::waitForConnection() {
+  bool ledOn = true;
+  uint8_t counter = 0;
+
+  digitalWrite(2, HIGH);
+  while (WiFi.status() != WL_CONNECTED) { 
+    counter++;
+    if (counter > 3) {
+      Serial.print(".");
+      if (ledOn) {
+        ledOn = false;
+        digitalWrite(2, LOW);
+      } else {
+        ledOn = true;
+        digitalWrite(2, HIGH);
+      }
+      counter = 0;
+    }
+    delay(50);
+  }
+  digitalWrite(2, LOW);
 }
 
