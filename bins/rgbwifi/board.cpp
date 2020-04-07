@@ -1,19 +1,15 @@
 #include "board.h"
 
-typedef enum {
-    TKIP_WPA = 2,
-    WEP = 5,
-    CCMP_WPA = 4,
-    NONE = 7,
-    AUTO = 8
-} encryption_t;
-
-board::board(int brate) : brate(brate) {
+board::board(int brate) : brate(brate), server(WiFiServer(80)), 
+                          manualValue(0), currentColour(colour(0,0,0)),
+                          manualSum(0), RGB(strip(12,13,14)), mode(WIFI_MODE),
+                          modeButton(0){
   Serial.begin(115200); //baud rate
   WiFi.mode(WIFI_STA); //estacion
   WiFi.disconnect();
   delay(100);
   pinMode(2, OUTPUT);
+  for(int i = 0; i < AVERAGE_LEN; i++) manualValues.push(0);
 }
 
 void board::printNetworks() {
@@ -57,6 +53,12 @@ void board::connect(const char * ssid, const char * password) {
   Serial.println(".");
   Serial.print("Device IP: ");
   Serial.println(WiFi.localIP());
+  server.begin();
+}
+
+// waits for clients
+WiFiClient board::listen() {
+    return server.available();
 }
 
 void board::serialWelcome() {
@@ -87,5 +89,48 @@ void board::waitForConnection() {
     delay(50);
   }
   digitalWrite(2, LOW);
+}
+
+void board::updateManualControl() {
+  if (mode != MANUAL_MODE) return;
+  manualSum += manualValues.back();
+  manualSum -= manualValues.front();
+  manualValues.push(analogRead(A0) / 1023.0 / 0.88);
+  manualValues.pop();
+  currentColour.rainbow(manualSum / AVERAGE_LEN);
+  RGB.setColour(currentColour);
+}
+
+void board::updateStrobe() {
+  if (mode != STROBE_MODE) return;
+  RGB.brightness(currentColour, analogRead(A0) / 1023.0 / 0.88);
+  RGB.strobe(strobeIndex);
+}
+
+void board::updateBrightness() {
+  if (mode != BRIGHTNESS_MODE) return;
+  RGB.brightness(currentColour, analogRead(A0) / 1023.0 / 0.88);
+}
+
+void board::updateMode() {
+  if (modeButton.isPressed()) {
+    mode = (boardMode_t) (mode + 1);
+    if (mode == DEFAULT_MODE) {
+      mode = (boardMode_t) 0;
+    } else if (mode == WIFI_MODE) {
+      RGB.flash(FLASH_DELAY, colour(WHITE), FLASH_TIMES);
+      RGB.setColour(colour(currentColour));
+    } else if (mode == MANUAL_MODE) {
+      RGB.flash(FLASH_DELAY, colour(WHITE), FLASH_TIMES);
+      RGB.setColour(colour(currentColour));
+    } else if (mode == STROBE_MODE) {
+      RGB.flash(FLASH_DELAY, colour(WHITE), FLASH_TIMES);
+    } else if (mode == BRIGHTNESS_MODE) {
+      RGB.flash(FLASH_DELAY, colour(WHITE), FLASH_TIMES);
+      RGB.setColour(colour(currentColour));
+    }
+  }
+
+  Serial.println(mode);
 }
 

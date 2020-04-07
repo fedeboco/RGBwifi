@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<script src="https://combinatronics.com/fedeboco/RGBwifi/master/bins/web/jscolor.js"></script>
+
+<head>
+<style>
+body {
+  background-color: black;
+}
+
+h1 {
+  color: white;
+  font-family: 'Lucida Sans Unicode', 'Arial Narrow Bold', sans-serif;
+  text-align: left;
+}
+
+p {
+  color: white;
+  font-family: 'Arial Narrow Bold', sans-serif;
+  font-size: 20px;
+}
+</style>
+</head>
+<body>
+
+  <h1>RGB WiFi Controller Center</h1>
+  <p>WiFi Board 1</p>
+
+  <font face="Lucida Sans Unicode" color="white"> Pick color: </font>
+  <input class="jscolor {onFineChange:'update(this)'}" id="pick">
+  <button>
+    <a class href="#" color="white" id="choose_color" face="verdana" role="button"> Set Color </a> 
+  </button>
+  
+
+<script>
+  function update(picker) {
+      document.getElementById('pick').innerHTML = "Elegir " + Math.round(picker.rgb[0]) + ', ' +  Math.round(picker.rgb[1]) + ', ' + Math.round(picker.rgb[2]);
+      document.getElementById("choose_color").href="?r" + Math.round(picker.rgb[0]) + "g" +  Math.round(picker.rgb[1]) + "b" + Math.round(picker.rgb[2]) + "&";
+  }
+</script>
+
+</body>
+</html>
+
+

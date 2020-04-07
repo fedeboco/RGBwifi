@@ -4,6 +4,12 @@ colour::colour() : R(0), G(0), B(0) {}
 
 colour::colour(uint8_t R, uint8_t G, uint8_t B) : R(R), G(G), B(B) {}
 
+void colour::recolor(int R, int G, int B) {
+  this->R = R;
+  this->G = G;
+  this->B = B;
+}
+
 uint8_t colour::getR() {
   return R; 
 }
