@@ -2,7 +2,7 @@
 #define STRIP_H
 
 #include <stdint.h>
-#include "colour.h"
+#include "color.h"
 #include "ESP8266WiFi.h"
 
 class strip {
@@ -14,10 +14,10 @@ class strip {
     
   public:
     strip(uint8_t, uint8_t, uint8_t);
-    void setColour(colour);
-    void flash(int, colour, int);
-    void strobe(colour &, float &);
-    void brightness(colour &, float);
+    void setColor(color);
+    void flash(int, color, int);
+    void strobe(color &, float &);
+    void brightness(color &, float);
 };
 
 #endif

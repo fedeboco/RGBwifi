@@ -1,6 +1,6 @@
 #include "ESP8266WiFi.h"
 #include "board.h"
-#include "colour.h"
+#include "color.h"
 #include "strip.h"
 
 #define FLASH_PERIOD 500 // ms
@@ -21,5 +21,5 @@ void loop() {
   WiFiBoard.updateStrobe();
   WiFiBoard.updateBrightness();
   WiFiBoard.updateWiFiClient();
-  WiFiBoard.updateColour();
+  WiFiBoard.updateColor();
 }

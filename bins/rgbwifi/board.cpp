@@ -1,7 +1,7 @@
 #include "board.h"
 
 board::board(int brate) : brate(brate), server(WiFiServer(80)), 
-                          manualValue(0), currentColour(colour(0,0,0)),
+                          manualValue(0), currentColor(color(0,0,0)),
                           manualSum(0), RGB(strip(12,13,14)), mode(WIFI_MODE),
                           modeButton(0){
   Serial.begin(115200); //baud rate
@@ -97,24 +97,24 @@ void board::updateManualControl() {
   manualSum -= manualValues.front();
   manualValues.push(analogRead(A0) / 1023.0 / 0.88);
   manualValues.pop();
-  currentColour.rainbow(manualSum / AVERAGE_LEN);
+  currentColor.rainbow(manualSum / AVERAGE_LEN);
 }
 
 void board::updateStrobe() {
   if (mode != STROBE_MODE) return;
-  RGB.strobe(currentColour, strobeIndex);
+  RGB.strobe(currentColor, strobeIndex);
 }
 
 void board::updateBrightness() {
   if (mode == MANUAL_MODE) return;
-  RGB.brightness(currentColour, analogRead(A0) / 1023.0 / 0.88);
+  RGB.brightness(currentColor, analogRead(A0) / 1023.0 / 0.88);
 }
 
-void board::updateColour() {
+void board::updateColor() {
   if (mode == WIFI_MODE) {
-     RGB.setColour(WiFiCurrentColour);
+     RGB.setColor(WiFiCurrentColor);
   } else {
-     RGB.setColour(currentColour);
+     RGB.setColor(currentColor);
   }
 }
 
@@ -123,7 +123,7 @@ void board::updateMode() {
     mode = (boardMode_t) (mode + 1);
     if (mode == DEFAULT_MODE)
       mode = (boardMode_t) 0;
-    RGB.flash(FLASH_DELAY, colour(WHITE), FLASH_TIMES);
+    RGB.flash(FLASH_DELAY, color(WHITE), FLASH_TIMES);
   }
 }
 
@@ -137,7 +137,7 @@ void board::updateWiFiClient() {
       red= request.substring(request.indexOf('x') + 1, request.indexOf('y'));
       green = request.substring(request.indexOf('y') + 1,request.indexOf('z'));
       blue = request.substring(request.indexOf('z') + 1, request.indexOf('&'));
-      WiFiCurrentColour.recolor(red.toInt(), green.toInt(), blue.toInt());
+      WiFiCurrentColor.recolor(red.toInt(), green.toInt(), blue.toInt());
       Serial.print(" RGB = ");
       Serial.print(red);
       Serial.print(" ; ");

@@ -4,7 +4,7 @@
 #include "ESP8266WiFi.h"
 #include <stdint.h>
 #include <queue>
-#include "colour.h"
+#include "color.h"
 #include "strip.h"
 #include "button.h"
 #include "htmlclient.h"
@@ -37,8 +37,8 @@ class board {
   float manualValue;
   float manualSum;
   std::queue<float> manualValues;
-  colour currentColour;
-  colour WiFiCurrentColour;
+  color currentColor;
+  color WiFiCurrentColor;
   float strobeIndex = 0;
   strip RGB;
   boardMode_t mode;
@@ -59,7 +59,7 @@ class board {
   void updateStrobe();
   void updateBrightness();
   void updateWiFiClient(); 
-  void updateColour();
+  void updateColor();
 };
 
 #endif

@@ -6,22 +6,22 @@ strip::strip(uint8_t Rpin, uint8_t Gpin, uint8_t Bpin) : Rpin(Rpin), Gpin(Gpin),
     pinMode(Bpin, OUTPUT);
 }
 
-void strip::setColour(colour colour) {
-    analogWrite(Rpin, colour.getR() * 1023 / 255);
-    analogWrite(Gpin, colour.getG() * 1023 / 255);
-    analogWrite(Bpin, colour.getB() * 1023 / 255);
+void strip::setColor(color color) {
+    analogWrite(Rpin, color.getR() * 1023 / 255);
+    analogWrite(Gpin, color.getG() * 1023 / 255);
+    analogWrite(Bpin, color.getB() * 1023 / 255);
 }
 
-void strip::flash(int period, colour c, int times) {
+void strip::flash(int period, color c, int times) {
     for(int i = 0; i < times; i++) {
-      setColour(c);
+      setColor(c);
       delay(period);
-      setColour(colour(0,0,0));
+      setColor(color(0,0,0));
       delay(period);
     }
 }
 
-void strip::strobe(colour & current, float & index) {
+void strip::strobe(color & current, float & index) {
   index += 0.002;
   if (index > 1) index = 0;
   current.rainbow(index);
@@ -29,7 +29,7 @@ void strip::strobe(colour & current, float & index) {
   delay(25);
 }
 
-void strip::brightness(colour & current, float factor) {
+void strip::brightness(color & current, float factor) {
   uint8_t R = current.getR();
   uint8_t G = current.getG();
   uint8_t B = current.getB();

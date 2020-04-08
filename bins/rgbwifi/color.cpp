@@ -1,28 +1,28 @@
-#include "colour.h"
+#include "color.h"
 
-colour::colour() : R(0), G(0), B(0) {}
+color::color() : R(0), G(0), B(0) {}
 
-colour::colour(uint8_t R, uint8_t G, uint8_t B) : R(R), G(G), B(B) {}
+color::color(uint8_t R, uint8_t G, uint8_t B) : R(R), G(G), B(B) {}
 
-void colour::recolor(int R, int G, int B) {
+void color::recolor(int R, int G, int B) {
   this->R = R;
   this->G = G;
   this->B = B;
 }
 
-uint8_t colour::getR() {
+uint8_t color::getR() {
   return R; 
 }
 
-uint8_t colour::getG() {
+uint8_t color::getG() {
   return G; 
 }
 
-uint8_t colour::getB() {
+uint8_t color::getB() {
   return B; 
 }
 
-float colour::redRainbow(float pos) {
+float color::redRainbow(float pos) {
   if (pos < 1.0/6 || pos > 5.0/6) {
     return 1;
   } else if (pos >= 1.0/6 && pos < 2.0/6) {
@@ -34,7 +34,7 @@ float colour::redRainbow(float pos) {
   }
 }
 
-float colour::greenRainbow(float pos) {
+float color::greenRainbow(float pos) {
   if (pos < 3.0/6 && pos > 1.0/6) {
     return 1;
   } else if (pos > 0 && pos <= 1.0/6) {
@@ -46,7 +46,7 @@ float colour::greenRainbow(float pos) {
   }
 }
 
-float colour::blueRainbow(float pos) {
+float color::blueRainbow(float pos) {
   if (pos < 5.0/6 && pos > 3.0/6) {
     return 1;
   } else if (pos >= 2.0/6 && pos < 3.0/6) {
@@ -58,7 +58,7 @@ float colour::blueRainbow(float pos) {
   }
 }
 
-void colour::rainbow(float pos) {
+void color::rainbow(float pos) {
   R = redRainbow(pos) * 255;
   G = greenRainbow(pos) * 255;
   B = blueRainbow(pos) * 255;
