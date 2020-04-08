@@ -37,12 +37,12 @@ void board::printNetworks() {
 }
 
 void board::printEncryptionType(uint8_t enc) {
-    if (enc == TKIP_WPA) Serial.println("WPA (TKIP)");
-    else if (enc == CCMP_WPA) Serial.println("WPA (CCMP)");
-    else if (enc == WEP) Serial.println("WEP");
-    else if (enc == ENC_TYPE_NONE) Serial.println("Open network");
-    else if (enc == AUTO) Serial.println("Auto");
-    else Serial.println("Unknown encryption");
+  if (enc == TKIP_WPA) Serial.println("WPA (TKIP)");
+  else if (enc == CCMP_WPA) Serial.println("WPA (CCMP)");
+  else if (enc == WEP) Serial.println("WEP");
+  else if (enc == ENC_TYPE_NONE) Serial.println("Open network");
+  else if (enc == AUTO) Serial.println("Auto");
+  else Serial.println("Unknown encryption");
 }
 
 void board::connect(const char * ssid, const char * password) {
@@ -98,39 +98,57 @@ void board::updateManualControl() {
   manualValues.push(analogRead(A0) / 1023.0 / 0.88);
   manualValues.pop();
   currentColour.rainbow(manualSum / AVERAGE_LEN);
-  RGB.setColour(currentColour);
 }
 
 void board::updateStrobe() {
   if (mode != STROBE_MODE) return;
-  RGB.brightness(currentColour, analogRead(A0) / 1023.0 / 0.88);
-  RGB.strobe(strobeIndex);
+  RGB.strobe(currentColour, strobeIndex);
 }
 
 void board::updateBrightness() {
-  if (mode != BRIGHTNESS_MODE) return;
+  if (mode == MANUAL_MODE) return;
   RGB.brightness(currentColour, analogRead(A0) / 1023.0 / 0.88);
+}
+
+void board::updateColour() {
+  if (mode == WIFI_MODE) {
+     RGB.setColour(WiFiCurrentColour);
+  } else {
+     RGB.setColour(currentColour);
+  }
 }
 
 void board::updateMode() {
   if (modeButton.isPressed()) {
     mode = (boardMode_t) (mode + 1);
-    if (mode == DEFAULT_MODE) {
+    if (mode == DEFAULT_MODE)
       mode = (boardMode_t) 0;
-    } else if (mode == WIFI_MODE) {
-      RGB.flash(FLASH_DELAY, colour(WHITE), FLASH_TIMES);
-      RGB.setColour(colour(currentColour));
-    } else if (mode == MANUAL_MODE) {
-      RGB.flash(FLASH_DELAY, colour(WHITE), FLASH_TIMES);
-      RGB.setColour(colour(currentColour));
-    } else if (mode == STROBE_MODE) {
-      RGB.flash(FLASH_DELAY, colour(WHITE), FLASH_TIMES);
-    } else if (mode == BRIGHTNESS_MODE) {
-      RGB.flash(FLASH_DELAY, colour(WHITE), FLASH_TIMES);
-      RGB.setColour(colour(currentColour));
-    }
+    RGB.flash(FLASH_DELAY, colour(WHITE), FLASH_TIMES);
   }
+}
 
-  Serial.println(mode);
+void board::updateWiFiClient() {
+  RGBClient.listen(server);
+  String request = "";
+  String red = "0", green = "0", blue = "0";
+  if (RGBClient.getClient()) {
+    request = RGBClient.process("GET /?x");
+    if (request.indexOf("GET /?x") >= 0) {
+      red= request.substring(request.indexOf('x') + 1, request.indexOf('y'));
+      green = request.substring(request.indexOf('y') + 1,request.indexOf('z'));
+      blue = request.substring(request.indexOf('z') + 1, request.indexOf('&'));
+      WiFiCurrentColour.recolor(red.toInt(), green.toInt(), blue.toInt());
+      Serial.print(" RGB = ");
+      Serial.print(red);
+      Serial.print(" ; ");
+      Serial.print(green);
+      Serial.print(" ; ");
+      Serial.println(blue);
+    }
+    RGBClient.stop();
+    Serial.println("Client disconnected.");
+    Serial.println("");
+  }
+  delay(10);
 }
 

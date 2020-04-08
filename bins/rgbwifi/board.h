@@ -7,6 +7,7 @@
 #include "colour.h"
 #include "strip.h"
 #include "button.h"
+#include "htmlclient.h"
 
 #define AVERAGE_LEN 50.0
 #define WHITE 255,255,255
@@ -37,11 +38,13 @@ class board {
   float manualSum;
   std::queue<float> manualValues;
   colour currentColour;
+  colour WiFiCurrentColour;
   float strobeIndex = 0;
   strip RGB;
   boardMode_t mode;
   button modeButton;
   float brightness;
+  htmlClient RGBClient;
     
   public:
   board(int);
@@ -55,7 +58,8 @@ class board {
   void updateMode();
   void updateStrobe();
   void updateBrightness();
-  
+  void updateWiFiClient(); 
+  void updateColour();
 };
 
 #endif

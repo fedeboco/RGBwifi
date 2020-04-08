@@ -5,11 +5,9 @@
 
 #define FLASH_PERIOD 500 // ms
 
-const char* ssid = "AleNet_1";     // Aqui van vuestros datos
-const char* password = "Tesla-01";
+const char* ssid = "test";
+const char* password = "test";
 board WiFiBoard(115200);
-
-
 
 void setup() {
   WiFiBoard.serialWelcome();
@@ -18,13 +16,10 @@ void setup() {
 }
 
 void loop() {
-
   WiFiBoard.updateMode();
   WiFiBoard.updateManualControl();
   WiFiBoard.updateStrobe();
   WiFiBoard.updateBrightness();
-
-
-  
-  
+  WiFiBoard.updateWiFiClient();
+  WiFiBoard.updateColour();
 }

@@ -16,7 +16,7 @@ class strip {
     strip(uint8_t, uint8_t, uint8_t);
     void setColour(colour);
     void flash(int, colour, int);
-    void strobe(float &);
+    void strobe(colour &, float &);
     void brightness(colour &, float);
 };
 

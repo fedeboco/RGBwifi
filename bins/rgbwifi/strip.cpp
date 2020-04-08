@@ -21,13 +21,11 @@ void strip::flash(int period, colour c, int times) {
     }
 }
 
-void strip::strobe(float & index) {
-  colour c;
+void strip::strobe(colour & current, float & index) {
   index += 0.002;
   if (index > 1) index = 0;
-  c.rainbow(index);
-  brightness(c, brigthnessFactor);
-  setColour(c);
+  current.rainbow(index);
+  brightness(current, brigthnessFactor);
   delay(25);
 }
 
@@ -43,7 +41,7 @@ void strip::brightness(colour & current, float factor) {
   R = 255.0 * R / maxColor * factor;
   G = 255.0 * G / maxColor * factor;
   B = 255.0 * B / maxColor * factor;
-  current.recolor(R,G,B);
+  /*current.recolor(R,G,B);*/ //DESCOMENTAR PARA BRILLO
   brigthnessFactor = factor;
 }
 
