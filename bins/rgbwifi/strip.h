@@ -10,14 +10,14 @@ class strip {
     uint8_t Rpin;
     uint8_t Gpin;
     uint8_t Bpin;
-    float brigthnessFactor;
+    float brightnessFactor;
     
   public:
     strip(uint8_t, uint8_t, uint8_t);
     void setColor(color);
     void flash(int, color, int);
     void strobe(color &, float &);
-    void brightness(color &, float);
+    void setBrightness(float);
 };
 
 #endif

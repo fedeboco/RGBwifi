@@ -34,9 +34,9 @@ class board {
   private:
   int brate;
   WiFiServer server;
-  float manualValue;
-  float manualSum;
-  std::queue<float> manualValues;
+  float scaleValue;
+  float scaleSum;
+  std::queue<float> scaleValues;
   color currentColor;
   color WiFiCurrentColor;
   float strobeIndex = 0;
@@ -60,6 +60,7 @@ class board {
   void updateBrightness();
   void updateWiFiClient(); 
   void updateColor();
+  void updateAnalogScale();
 };
 
 #endif

@@ -1,12 +1,8 @@
 #include "ESP8266WiFi.h"
 #include "board.h"
-#include "color.h"
-#include "strip.h"
 
-#define FLASH_PERIOD 500 // ms
-
-const char* ssid = "test";
-const char* password = "test";
+const char* ssid = "Network-Name";
+const char* password = "6#Z9K%L>e@7GdDtj";
 board WiFiBoard(115200);
 
 void setup() {
@@ -17,6 +13,7 @@ void setup() {
 
 void loop() {
   WiFiBoard.updateMode();
+  WiFiBoard.updateAnalogScale();
   WiFiBoard.updateManualControl();
   WiFiBoard.updateStrobe();
   WiFiBoard.updateBrightness();

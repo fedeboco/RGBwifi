@@ -46,7 +46,6 @@ String htmlClient::process(String requestStart) {
             if(request.indexOf(requestStart) >= 0) {
               return request;
             }
-            
           } else {
             currentLine = "";
           }

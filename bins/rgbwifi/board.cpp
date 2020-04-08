@@ -1,15 +1,15 @@
 #include "board.h"
 
 board::board(int brate) : brate(brate), server(WiFiServer(80)), 
-                          manualValue(0), currentColor(color(0,0,0)),
-                          manualSum(0), RGB(strip(12,13,14)), mode(WIFI_MODE),
+                          scaleValue(0), currentColor(color(0,0,0)),
+                          scaleSum(0), RGB(strip(12,13,14)), mode(WIFI_MODE),
                           modeButton(0){
   Serial.begin(115200); //baud rate
   WiFi.mode(WIFI_STA); //estacion
   WiFi.disconnect();
   delay(100);
   pinMode(2, OUTPUT);
-  for(int i = 0; i < AVERAGE_LEN; i++) manualValues.push(0);
+  for(int i = 0; i < AVERAGE_LEN; i++) scaleValues.push(0);
 }
 
 void board::printNetworks() {
@@ -93,11 +93,7 @@ void board::waitForConnection() {
 
 void board::updateManualControl() {
   if (mode != MANUAL_MODE) return;
-  manualSum += manualValues.back();
-  manualSum -= manualValues.front();
-  manualValues.push(analogRead(A0) / 1023.0 / 0.88);
-  manualValues.pop();
-  currentColor.rainbow(manualSum / AVERAGE_LEN);
+  currentColor.rainbow(scaleSum / AVERAGE_LEN);
 }
 
 void board::updateStrobe() {
@@ -107,7 +103,7 @@ void board::updateStrobe() {
 
 void board::updateBrightness() {
   if (mode == MANUAL_MODE) return;
-  RGB.brightness(currentColor, analogRead(A0) / 1023.0 / 0.88);
+  RGB.setBrightness(scaleSum / AVERAGE_LEN);
 }
 
 void board::updateColor() {
@@ -116,6 +112,13 @@ void board::updateColor() {
   } else {
      RGB.setColor(currentColor);
   }
+}
+
+void board::updateAnalogScale() {
+  scaleSum += scaleValues.back();
+  scaleSum -= scaleValues.front();
+  scaleValues.push(analogRead(A0) / 1023.0 / 0.88);
+  scaleValues.pop();
 }
 
 void board::updateMode() {
@@ -138,13 +141,7 @@ void board::updateWiFiClient() {
       green = request.substring(request.indexOf('y') + 1,request.indexOf('z'));
       blue = request.substring(request.indexOf('z') + 1, request.indexOf('&'));
       WiFiCurrentColor.recolor(red.toInt(), green.toInt(), blue.toInt());
-      Serial.print(" RGB = ");
-      Serial.print(red);
-      Serial.print(" ; ");
-      Serial.print(green);
-      Serial.print(" ; ");
-      Serial.println(blue);
-    }
+   }
     RGBClient.stop();
     Serial.println("Client disconnected.");
     Serial.println("");
