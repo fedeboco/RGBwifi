@@ -19,4 +19,5 @@ void loop() {
   WiFiBoard.updateBrightness();
   WiFiBoard.updateWiFiClient();
   WiFiBoard.updateColor();
+  WiFiBoard.startAccessPointMode();
 }

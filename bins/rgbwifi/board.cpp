@@ -91,6 +91,27 @@ void board::waitForConnection() {
   digitalWrite(2, LOW);
 }
 
+void board::startAccessPointMode() {
+  if (modeButton.holded(3000))
+    blinkStatusLed(10);
+}
+
+void board::blinkStatusLed(uint8_t times) {
+  bool ledOn = true;
+
+  digitalWrite(2, HIGH);
+  for (uint8_t i = 0; i < 2 * times; i++) {
+      if (ledOn) {
+        ledOn = false;
+        digitalWrite(2, LOW);
+      } else {
+        ledOn = true;
+        digitalWrite(2, HIGH);
+      }
+      delay(250);
+  }
+}
+
 void board::updateManualControl() {
   if (mode != MANUAL_MODE) return;
   currentColor.rainbow(scaleSum / AVERAGE_LEN);

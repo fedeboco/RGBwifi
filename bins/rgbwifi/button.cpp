@@ -9,6 +9,7 @@ bool button::isPressed() {
   if (released && digitalRead(pin) == LOW){
     released = 0;
     holding = 1;
+    holdStart = millis();
     return true; // first press
   } else if (released == 0 && digitalRead(pin) == LOW) {
     return false; // holding
@@ -23,3 +24,9 @@ bool button::beingHold() {
   return holding;
 }
 
+bool button::holded(unsigned long milliseconds) {
+  if (beingHold() && millis() - holdStart > milliseconds)
+    return true;
+  else
+    return false;
+}

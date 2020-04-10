@@ -8,6 +8,7 @@
 #include "strip.h"
 #include "button.h"
 #include "htmlclient.h"
+#include "netconfig.h"
 
 #define AVERAGE_LEN 50.0
 #define WHITE 255,255,255
@@ -61,6 +62,8 @@ class board {
   void updateWiFiClient(); 
   void updateColor();
   void updateAnalogScale();
+  void blinkStatusLed(uint8_t);
+  void startAccessPointMode();
 };
 
 #endif
