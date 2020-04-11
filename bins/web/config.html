@@ -1,0 +1,56 @@
+<!DOCTYPE html> 
+<html> 
+
+<head> 
+  <title> RGB-C Configuration </title> 
+    <style> 
+        h1 { 
+            font-family: 'Lucida Sans Unicode', 'Arial Narrow Bold', sans-serif;
+        } 
+        h2{
+            font-family: 'Lucida Sans Unicode', 'Arial Narrow Bold', sans-serif;
+            font-size: 15px;
+        }
+        h3{
+            font-family: 'Lucida Sans Unicode', 'Arial Narrow Bold', sans-serif;
+            font-size: 11px;
+        }
+        body { 
+            text-align: center; 
+        } 
+        .grid-container {
+            display: grid;
+            grid-template-columns: auto 80px 80px 110px auto;
+            text-align: right; 
+            align-self: center;
+        }
+        .grid-container > div {
+            text-align: center;
+            padding: 20px 0;
+            font-size: 15px;
+        }
+    </style> 
+</head> 
+
+<body> 
+    <h1>RGB WiFi Controller</h1> 
+    <br> <h2>WiFi Network Settings</h2>
+    <br > <h3>Your device will connect to this network.</h3>
+    <form action='config_sent' method='get'> 
+        <div class="grid-container">
+            <div></div>
+            <div>Network Name</div>
+            <div > <input type="text" name="user" required placeholder="Device will connect here"> </div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div>Password</div>
+            <div> <input type="password" name="pass"> </div>
+            <div></div>
+            <div></div>
+        </div>
+        <input type="submit"> 
+    </form> 
+</body> 
+  
+</html> 
