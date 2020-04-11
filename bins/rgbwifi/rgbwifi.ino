@@ -7,6 +7,7 @@ board WiFiBoard(115200);
 
 void setup() {
   WiFiBoard.serialWelcome();
+  WiFiBoard.startStationMode();
   WiFiBoard.printNetworks();
   WiFiBoard.connect(ssid, password);
 }

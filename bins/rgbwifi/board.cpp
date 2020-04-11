@@ -5,9 +5,6 @@ board::board(int brate) : brate(brate), server(WiFiServer(80)),
                           scaleSum(0), RGB(strip(12,13,14)), mode(WIFI_MODE),
                           modeButton(0){
   Serial.begin(115200); //baud rate
-  WiFi.mode(WIFI_STA); //estacion
-  WiFi.disconnect();
-  delay(100);
   pinMode(2, OUTPUT);
   for(int i = 0; i < AVERAGE_LEN; i++) scaleValues.push(0);
 }
@@ -92,8 +89,20 @@ void board::waitForConnection() {
 }
 
 void board::startAccessPointMode() {
-  if (modeButton.holded(3000))
-    blinkStatusLed(10);
+  if (!modeButton.holded(3000)) return;
+
+  server.stop();
+  blinkStatusLed(10);
+  netConfig conf;
+  conf.updateCredentials();
+  conf.serverStop();
+  setup();
+}
+
+void board::startStationMode() {
+  WiFi.mode(WIFI_STA); //estacion
+  WiFi.disconnect();
+  delay(100);
 }
 
 void board::blinkStatusLed(uint8_t times) {
@@ -108,7 +117,7 @@ void board::blinkStatusLed(uint8_t times) {
         ledOn = true;
         digitalWrite(2, HIGH);
       }
-      delay(250);
+      delay(50);
   }
 }
 

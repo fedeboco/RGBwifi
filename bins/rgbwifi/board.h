@@ -64,6 +64,7 @@ class board {
   void updateAnalogScale();
   void blinkStatusLed(uint8_t);
   void startAccessPointMode();
+  void startStationMode();
 };
 
 #endif

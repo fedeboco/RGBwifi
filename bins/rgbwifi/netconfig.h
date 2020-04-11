@@ -10,8 +10,10 @@ class netConfig {
     
     public:
     netConfig();
+    ~netConfig();
     void updateCredentials();
     void sendWebPage();
+    void serverStop();
 };
 
 #endif

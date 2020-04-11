@@ -2,9 +2,18 @@
 
 netConfig::netConfig() : server(WiFiServer(80)) {
     WiFi.softAP("RGB-C");
+    Serial.print("Configuration IP: ");
     Serial.println(WiFi.softAPIP());
     server.begin();
-    updateCredentials();
+}
+
+netConfig::~netConfig() {
+  server.stop();
+  WiFi.softAPdisconnect();
+}
+
+void netConfig::serverStop() {
+  server.stop();
 }
 
 void netConfig::updateCredentials() {
@@ -12,10 +21,13 @@ void netConfig::updateCredentials() {
     unsigned long currentTime = millis();
     unsigned long previousTime = 0; 
     long timeoutTime = 200;
-    client = server.available();
     while (!updated) {
+      client = server.available();
       String request = "";
+      Serial.print("A: ");
+      Serial.println(client);
       if (client) {
+        Serial.println("B");
         currentTime = millis();
         previousTime = currentTime;
         Serial.println("New Client.");
@@ -43,7 +55,7 @@ void netConfig::updateCredentials() {
         Serial.println("Client disconnected.");
         Serial.println("");
       }
-      delay(10);
+      delay(1000);
     }
 }
 
