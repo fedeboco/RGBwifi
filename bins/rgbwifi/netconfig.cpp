@@ -30,6 +30,7 @@ void netConfig::handleConfigSent() {
   Serial.print("Received user and password");
   String user = server.arg("user");
   String pass = server.arg("pass");
+  if (user.length() > 128 || pass.length() > 128) return;
   WiFi.begin(user, pass);
   digitalWrite(2, HIGH);
   unsigned long timer = millis();
@@ -53,9 +54,27 @@ void netConfig::handleConfigSent() {
     if (WiFi.status() == WL_CONNECTED) {
       Serial.print("CONNECTED");
       updated = true;
-      disconnected = false;  
+      disconnected = false;
+      saveCredentials(user, pass);
     }
   }
+}
+
+void netConfig::saveCredentials(String user, String pass) {
+  EEPROM.begin(512);
+  delay(10);
+  for (int i=0; i < user.length(); i++) {
+    EEPROM.write(0 + i, user[i]);
+    Serial.print(user[i]);
+  }
+  EEPROM.write(user.length(), '\n');
+  for (int i=0; i < pass.length(); i++) {
+    EEPROM.write(128 + i, pass[i]);
+    Serial.print(pass[i]);
+  }
+  EEPROM.write(128 + pass.length(), '\n');
+  EEPROM.commit();
+  Serial.println(""); 
 }
 
 String netConfig::getWiFiConnectedMessage() {

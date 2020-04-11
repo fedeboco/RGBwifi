@@ -2,8 +2,9 @@
 #define NETCONFIG_h
 
 #include "ESP8266WiFi.h"
-#include <ESP8266WebServer.h>
-#include <functional>
+#include "EEPROM.h"
+#include "ESP8266WebServer.h"
+#include "functional"
 
 class netConfig {
     private:
@@ -19,6 +20,7 @@ class netConfig {
     void handleConfigSent();
     void handleRootAddress();
     String getWiFiConnectedMessage();
+    void saveCredentials(String, String);
 };
 
 #endif

@@ -43,14 +43,18 @@ void board::printEncryptionType(uint8_t enc) {
 }
 
 void board::connect(const char * ssid, const char * password) {
-  WiFi.begin(ssid, password);
+  
+  WiFi.begin(loadCredential(0,128), loadCredential(128,256));
   waitForConnection();
-  Serial.print("\nConnected successfully to ");
-  Serial.print(ssid);
-  Serial.println(".");
-  Serial.print("Device IP: ");
-  Serial.println(WiFi.localIP());
-  server.begin();
+  if (WiFi.status() == WL_CONNECTED) {
+    Serial.print("\nConnected successfully to ");
+    Serial.print(ssid);
+    Serial.println(".");
+    Serial.print("Device IP: ");
+    Serial.println(WiFi.localIP());
+    server.stop();
+    server.begin();
+  }
 }
 
 // waits for clients
@@ -68,9 +72,10 @@ void board::serialWelcome() {
 void board::waitForConnection() {
   bool ledOn = true;
   uint8_t counter = 0;
+  unsigned long timer = millis();
 
   digitalWrite(2, HIGH);
-  while (WiFi.status() != WL_CONNECTED) { 
+  while (WiFi.status() != WL_CONNECTED && millis() - timer < 7000) { 
     counter++;
     if (counter > 3) {
       Serial.print(".");
@@ -97,6 +102,29 @@ void board::startAccessPointMode() {
   conf.updateCredentials();
   conf.serverStop();
   setup();
+}
+
+String board::loadCredential(int start, int end) {
+  String buf = "";
+  int i = start;
+  char c = ' ';
+  bool done = false;
+  
+  EEPROM.begin(512); 
+  delay(10);
+  while(i <= end && !done) {
+    c = char(EEPROM.read(i));
+    if (c == '\n') {
+       done = true;
+    } else {
+       buf += c;
+    }
+    i++;  
+  }
+    
+  Serial.print("LEO: ");
+  Serial.println(buf);
+  return buf;
 }
 
 void board::startStationMode() {
