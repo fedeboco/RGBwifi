@@ -22,6 +22,7 @@ Connecting to an specific Wi-Fi network will be possible by fisrt connecting to 
 - Arduino IDE 1.8.3
 - ESP8266 Board Driver by EP8266 Community. v2.5.0. https://github.com/esp8266/Arduino
 - ESP8266 Web Server v1.0.0
+- JavaScript Color Picker http://jscolor.com/
 
 ### Schematic
 
