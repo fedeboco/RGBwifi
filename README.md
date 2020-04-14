@@ -1,10 +1,22 @@
-# ESP 8266 Wi-Fi RGB LED strip controller
+# ESP 8266 Wi-Fi RGB LED Strip Controller
+
+![alt text](https://github.com/fedeboco/RGBwifi/blob/master/bins/board/rgbcontroller/circuit.png?raw=true)
 
 ### Idea
 - Local network WiFi server.
 - Browser GUI for color selection.
-- Analog on-board hue-color selection.
-- Multiple board control.
+- Analog on-board hue-color and brightness selection.
+- Multiple board control (not implemented yet).
+
+### WiFi Configuration Example
+
+Connecting to an specific Wi-Fi network will be possible by fisrt connecting to an Access Point created by the ESP and sending the credentials using that network. The device stores the settings in EEPROM and restarts with the desired network configured.
+
+![alt text](https://github.com/fedeboco/RGBwifi/blob/master/bins/web/config_example.png?raw=true)
+
+### Use Example
+
+![alt text](https://github.com/fedeboco/RGBwifi/blob/master/bins/web/use_example.png?raw=true)
 
 ### Software
 - Arduino IDE 1.8.3
