@@ -1,4 +1,4 @@
-# ESP 8266 Wi-Fi RGB LED strip controller
+# ESP 8266 Wi-Fi RGB LED Strip Controller
 
 ![alt text](https://github.com/fedeboco/RGBwifi/blob/master/bins/board/rgbcontroller/circuit.png?raw=true)
 
