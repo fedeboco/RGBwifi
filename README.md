@@ -21,3 +21,8 @@ Connecting to an specific Wi-Fi network will be possible by fisrt connecting to 
 ### Software
 - Arduino IDE 1.8.3
 - esp8266 board driver by EP8266 Community. v2.5.0. https://github.com/esp8266/Arduino
+
+### Schematic
+
+![alt text](https://raw.githubusercontent.com/fedeboco/RGBwifi/f5ebdebd468698da88b54962cc8af5251b4130e2/bins/board/rgbcontroller/schematic.png)
+
